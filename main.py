@@ -13,8 +13,10 @@ class Environment:
         self.height = height
         self.area = width * height
         self.particles = []
-        self.trail_map = [[0]*width, [0]*height]
-        self.particle_map = [[0]*width, [0]*height]
+        self.trail_map = []
+        self.particle_map = []
+        for i, ii in zip(self.trail_map, self.particle_map):
+            i, ii = 0, 0
 
     def spawn(self):
         for i in range(int(self.area / self.pp)):
