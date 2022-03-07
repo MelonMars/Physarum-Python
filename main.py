@@ -13,10 +13,9 @@ class Environment:
         self.height = height
         self.area = width * height
         self.particles = []
-        self.trail_map = []
-        self.particle_map = []
-        for i, ii in zip(self.trail_map, self.particle_map):
-            i, ii = 0, 0
+        self.trail_map = [[0]*width, [0]*height]
+        self.particle_map = [[0]*width, [0]*height]
+
 
     def spawn(self):
         for i in range(int(self.area / self.pp)):
@@ -75,6 +74,8 @@ class Particle:
         return: updated trail map
         """
         updated_arr = arr
+        print(self.pos[0])
+        print(updated_arr)
         updated_arr[0][self.pos[0]] += self.depT
         updated_arr[1][self.pos[1]] += self.depT
         return updated_arr
