@@ -1,3 +1,5 @@
+import math
+
 class Particle:
     def __init__(self, pos: list, RA:int,  depT:int=5, SS:int=1, SO:int=9, PA=0):
         """
@@ -54,6 +56,10 @@ class Particle:
         elif self.PA == 135:
             self.pos[self.x] -= self.SS
             self.pos[self.y] += self.SS
+        if self.pos[self.x] < 0:
+            self.pos[self.x] = 0
+        if self.pos[self.y] < 0:
+            self.pos[self.y] = 0
 
     def make_sensors(self):
         self.f_sensor = [1 + int(math.ceil(math.sin(self.PA+90+45))), 1 + int(math.ceil(math.cos(self.PA+90+45)))]

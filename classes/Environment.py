@@ -1,3 +1,7 @@
+from random import randint, sample
+from scipy import ndimage
+from classes.Particle import Particle
+
 class Environment:
     def __init__(self, pp, size):
         self.pp = pp
@@ -5,13 +9,17 @@ class Environment:
         self.area = size**2
         print(self.area)
         self.particles = []
-        self.trail_map = [[0, 0, 0] for i in range(size)]
+        self.trail_map = []
+        for i in range(size):
+            for ii in range(size):
+                self.trail_map.append([i, ii, 0])
+        print(self.trail_map)
 
 
     def spawn(self):
         for i in range(int(self.area / self.pp)):
-            pos_x = randint(self.width / 2 * -1, self.width / 2)
-            pos_y = randint(self.height / 2 * -1, self.height / 2)
+            pos_x = randint(0, self.size)
+            pos_y = randint(0, self.size)
             p = Particle([pos_x, pos_y], 5)
             self.particles.append(p)
 
@@ -24,7 +32,7 @@ class Environment:
             particle.move()
 
     def sensor_stage(self):
-        for particle in sample(self.particles, 200):
+        for particle in sample(self.particles, self.size):
             particle.make_sensors()
             particle.sense()
 
