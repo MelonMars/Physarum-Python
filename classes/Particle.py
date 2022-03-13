@@ -1,7 +1,8 @@
 import math
+from random import randint
 
 class Particle:
-    def __init__(self, pos: list, RA:int,  depT:int=5, SS:int=1, SO:int=9, PA=0):
+    def __init__(self, pos: list, RA:int=45,  depT:int=5, SS:int=1, SO:int=9, PA=0):
         """
         :param pos: position, [x, y]
         :param depT: deposition amount of chemoattractant per step
@@ -33,6 +34,7 @@ class Particle:
             if cord[0] == self.pos[0]:
                 if cord[1] == self.pos[1]:
                     cord[2] += self.depT
+                    print(self.pos, cord[0], cord[1])
         return updated_arr
 
     def move(self):
@@ -64,7 +66,7 @@ class Particle:
     def make_sensors(self):
         self.f_sensor = [1 + int(math.ceil(math.sin(self.PA+90+45))), 1 + int(math.ceil(math.cos(self.PA+90+45)))]
         self.fL_sensor = [1 + int(math.ceil(math.sin(self.PA+90+90))), 1 + int(math.ceil(math.cos(self.PA+90+45)))]
-        self.fR_sensor = [1 + int(math.ceil(math.sin(self.PA+90))), 1 + int(math.ceil(math.cos(self.PA+90+45)))]
+        self.fR_sensor = [1 + int(math.sin(self.PA+90)), 1 + int(math.cos(self.PA+90+45))]
         self.sensors = [self.fL_sensor, self.f_sensor, self.fR_sensor]
 
     def sense(self):

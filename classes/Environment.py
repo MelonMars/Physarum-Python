@@ -7,20 +7,19 @@ class Environment:
         self.pp = pp
         self.size = size
         self.area = size**2
-        print(self.area)
         self.particles = []
         self.trail_map = []
         for i in range(size):
             for ii in range(size):
                 self.trail_map.append([i, ii, 0])
-        print(self.trail_map)
+        
 
 
     def spawn(self):
         for i in range(int(self.area / self.pp)):
             pos_x = randint(0, self.size)
             pos_y = randint(0, self.size)
-            p = Particle([pos_x, pos_y], 5)
+            p = Particle([pos_x, pos_y])
             self.particles.append(p)
 
     def deposit_stage(self):
