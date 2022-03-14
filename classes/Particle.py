@@ -34,7 +34,6 @@ class Particle:
             if cord[0] == self.pos[0]:
                 if cord[1] == self.pos[1]:
                     cord[2] += self.depT
-                    print(self.pos, cord[0], cord[1])
         return updated_arr
 
     def move(self):
@@ -69,8 +68,26 @@ class Particle:
         self.fR_sensor = [1 + int(math.sin(self.PA+90)), 1 + int(math.cos(self.PA+90+45))]
         self.sensors = [self.fL_sensor, self.f_sensor, self.fR_sensor]
 
-    def sense(self):
+    def sense(self, arr):
         fL, f, fR = self.sensors
+        fL_x = fL[0]
+        fL_y = fL[1]
+        f_x = f[0]
+        f_y = f[1]
+        fR_x = fR[0]
+        fR_y = fR[1]
+        for cord in arr:
+            if cord[0] == self.pos[0]+fL_x:
+                if cord[1] == self.pos[1]+fL_y:
+                    fL = cord[2]
+        for cord in arr:
+            if cord[0] == self.pos[0]+f_x:
+                if cord[1] == self.pos[1]+f_y:
+                    f = cord[2]
+        for cord in arr:
+            if cord[0] == self.pos[0]+fR_x:
+                if cord[1] == self.pos[1]+fR_y:
+                    fR = cord[2]
 
         if f > fL and f > fR:
             pass

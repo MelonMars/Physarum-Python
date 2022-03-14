@@ -12,9 +12,9 @@ def scheduler(steps, size):
         env.deposit_stage()
         env.sensor_stage()
         env.motor_stage()
-        if i % 2 != 0:
-            env.diffusion_operator()
-    print(env.trail_map)
+    for i in env.trail_map:
+        print(i)
+
 
 if __name__ == "__main__":
     scheduler(200, 20)

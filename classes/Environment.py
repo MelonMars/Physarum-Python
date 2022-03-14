@@ -12,8 +12,6 @@ class Environment:
         for i in range(size):
             for ii in range(size):
                 self.trail_map.append([i, ii, 0])
-        
-
 
     def spawn(self):
         for i in range(int(self.area / self.pp)):
@@ -33,13 +31,13 @@ class Environment:
     def sensor_stage(self):
         for particle in sample(self.particles, self.size):
             particle.make_sensors()
-            particle.sense()
-
-
-    def diffusion_operator(self, const=0.6, sigma=2):
-        """
+            particle.sense(self.trail_map)
+    """
+        def diffusion_operator(self, const=0.6, sigma=2):
+    
         applies a Gaussian filter to the entire trail map, spreading out chemoattractant
         const multiplier controls decay rate (lower = greater rate of decay, keep <1)
         Credit to: https://github.com/ecbaum/physarum/blob/8280cd131b68ed8dff2f0af58ca5685989b8cce7/species.py#L52
-        """""
+        
         self.trail_map = const * ndimage.gaussian_filter(self.trail_map, sigma)
+    """
