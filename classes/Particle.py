@@ -1,8 +1,9 @@
 import math
-from random import randint
+from random import randint, randrange
+
 
 class Particle:
-    def __init__(self, pos: list, RA:int=45,  depT:int=5, SS:int=1, SO:int=9, PA=0):
+    def __init__(self, pos: list, PA: int, RA: int = 45, depT: int = 5, SS: int = 1, SO: int = 9):
         """
         :param pos: position, [x, y]
         :param depT: deposition amount of chemoattractant per step
@@ -62,14 +63,14 @@ class Particle:
         if self.pos[self.y] < 0:
             self.pos[self.y] = 0
 
-    def make_sensors(self):
-        self.f_sensor = [1 + int(math.ceil(math.sin(self.PA+90+45))), 1 + int(math.ceil(math.cos(self.PA+90+45)))]
-        self.fL_sensor = [1 + int(math.ceil(math.sin(self.PA+90+90))), 1 + int(math.ceil(math.cos(self.PA+90+45)))]
-        self.fR_sensor = [1 + int(math.sin(self.PA+90)), 1 + int(math.cos(self.PA+90+45))]
+    def make_sensors(self, arr):
+        self.f_sensor = [1 + int(math.ceil(math.sin(self.PA + 90 + 45))),
+                         1 + int(math.ceil(math.cos(self.PA + 90 + 45)))]
+        self.fL_sensor = [1 + int(math.ceil(math.sin(self.PA + 90 + 90))),
+                          1 + int(math.ceil(math.cos(self.PA + 90 + 45)))]
+        self.fR_sensor = [1 + int(math.sin(self.PA + 90)), 1 + int(math.cos(self.PA + 90 + 45))]
         self.sensors = [self.fL_sensor, self.f_sensor, self.fR_sensor]
-
-    def sense(self, arr):
-        fL, f, fR = self.sensors
+        fL, f, fR = self.sensors  # B/c too lazy to do the change another way :P
         fL_x = fL[0]
         fL_y = fL[1]
         f_x = f[0]
@@ -77,18 +78,24 @@ class Particle:
         fR_x = fR[0]
         fR_y = fR[1]
         for cord in arr:
-            if cord[0] == self.pos[0]+fL_x:
-                if cord[1] == self.pos[1]+fL_y:
-                    fL = cord[2]
-        for cord in arr:
-            if cord[0] == self.pos[0]+f_x:
-                if cord[1] == self.pos[1]+f_y:
-                    f = cord[2]
-        for cord in arr:
-            if cord[0] == self.pos[0]+fR_x:
-                if cord[1] == self.pos[1]+fR_y:
-                    fR = cord[2]
+            print(cord)
+            if cord[0] == self.pos[0] + fL_x:
+                if cord[1] == self.pos[1] + fL_y:
+                    fL = cord[-1]
+                    fL = int(fL)
+            if cord[0] == self.pos[0] + f_x:
+                if cord[1] == self.pos[1] + f_y:
+                    f = cord[-1]
+                    f = int(f)
+            if cord[0] == self.pos[0] + fR_x:
+                if cord[1] == self.pos[1] + fR_y:
+                    fR = cord[-1]
+                    fR = int(fR)
+        self.sensors = [fL, f, fR]
 
+    def sense(self):
+
+        fL, f, fR = self.sensors
         if f > fL and f > fR:
             pass
         elif f < fL and f < fR:
@@ -101,4 +108,4 @@ class Particle:
         elif fR < fL:
             self.PA += self.RA
         else:
-            pass
+            self.PA += randrange(45, 360, 45)

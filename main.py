@@ -8,12 +8,11 @@ from classes.Particle import Particle
 def scheduler(steps, size):
     env = Environment(15, size)
     env.spawn()
-    for i in range(steps):
+    for i in range(steps-1):
+        env.motor_stage()
         env.deposit_stage()
         env.sensor_stage()
-        env.motor_stage()
-    for i in env.trail_map:
-        print(i)
+        print(env.particle_map())
 
 
 if __name__ == "__main__":

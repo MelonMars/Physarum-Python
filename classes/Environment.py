@@ -2,11 +2,12 @@ from random import randint, sample
 from scipy import ndimage
 from classes.Particle import Particle
 
+
 class Environment:
     def __init__(self, pp, size):
         self.pp = pp
         self.size = size
-        self.area = size**2
+        self.area = size ** 2
         self.particles = []
         self.trail_map = []
         for i in range(size):
@@ -17,7 +18,7 @@ class Environment:
         for i in range(int(self.area / self.pp)):
             pos_x = randint(0, self.size)
             pos_y = randint(0, self.size)
-            p = Particle([pos_x, pos_y])
+            p = Particle([pos_x, pos_y], randint(0, 360))
             self.particles.append(p)
 
     def deposit_stage(self):
@@ -30,8 +31,15 @@ class Environment:
 
     def sensor_stage(self):
         for particle in sample(self.particles, self.size):
-            particle.make_sensors()
-            particle.sense(self.trail_map)
+            particle.make_sensors(self.trail_map)
+            particle.sense()
+
+    def particle_map(self):
+        particle_map = []
+        for particle in self.particles:
+            particle_map.append([particle.pos, particle.PA])
+        return particle_map
+
     """
         def diffusion_operator(self, const=0.6, sigma=2):
     
