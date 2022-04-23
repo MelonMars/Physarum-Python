@@ -4,16 +4,20 @@ from scipy import ndimage
 from classes.Environment import Environment
 from classes.Particle import Particle
 
+nsteps = 0
+
 
 def scheduler(steps, size):
+    global nsteps
     env = Environment(15, size)
     env.spawn()
-    for i in range(steps-1):
+    while nsteps < steps:
         env.motor_stage()
         env.deposit_stage()
         env.sensor_stage()
-        print(env.particle_map())
+        nsteps += 1
 
 
 if __name__ == "__main__":
+    nsteps += 1
     scheduler(200, 20)

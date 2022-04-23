@@ -1,12 +1,12 @@
 import math
 from random import randint, randrange
-
+import sys
 
 class Particle:
     def __init__(self, pos: list, PA: int, RA: int = 45, depT: int = 5, SS: int = 1, SO: int = 9):
         """
         :param pos: position, [x, y]
-        :param depT: deposition amount of chemoattractant per step
+        :param depT: deposition amount of chemo attractant per step
         :param SS: step size
         :param RA: particle rotation angle
         :param SO: sensor offset
@@ -27,7 +27,7 @@ class Particle:
 
     def deposit_trail(self, arr):
         """
-        param arr: trail map
+        :param arr: trail map
         return: updated trail map
         """
         updated_arr = arr
@@ -78,9 +78,9 @@ class Particle:
         fR_x = fR[0]
         fR_y = fR[1]
         for cord in arr:
-            print(cord)
             if cord[0] == self.pos[0] + fL_x:
                 if cord[1] == self.pos[1] + fL_y:
+                    print(cord)
                     fL = cord[-1]
                     fL = int(fL)
             if cord[0] == self.pos[0] + f_x:
@@ -91,21 +91,33 @@ class Particle:
                 if cord[1] == self.pos[1] + fR_y:
                     fR = cord[-1]
                     fR = int(fR)
+        print(fL, f, fR)
         self.sensors = [fL, f, fR]
 
     def sense(self):
 
         fL, f, fR = self.sensors
-        if f > fL and f > fR:
-            pass
-        elif f < fL and f < fR:
-            if randint(1, 2) == 1:
+        try:
+            if type(fL) == "list":
+                fL = fL[0] + fL[1]
+            if type(f) == "list":
+                f = f[0] + f[1]
+            if type(fR) == "list":
+                fR = fR[0] + fR[1]
+
+            if f > fL and f > fR:
+                pass
+            elif f < fL and f < fR:
+                if randint(1, 2) == 1:
+                    self.PA += self.RA
+                else:
+                    self.PA -= self.RA
+            elif fL < fR:
+                self.PA -= self.RA
+            elif fR < fL:
                 self.PA += self.RA
             else:
-                self.PA -= self.RA
-        elif fL < fR:
-            self.PA -= self.RA
-        elif fR < fL:
-            self.PA += self.RA
-        else:
-            self.PA += randrange(45, 360, 45)
+                self.PA += randrange(45, 360, 45)
+        except:
+            print(fL, f, fR)
+            sys.exit("problem has been raised dipshit")
